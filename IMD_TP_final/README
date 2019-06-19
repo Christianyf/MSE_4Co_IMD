@@ -1,0 +1,49 @@
+/**
+ * @file    README
+ * @author  Christian Yanez
+ * @date    2019-06-18
+ * @version 0.1
+ * @brief   Desarrollo de  driver i2c bbb eeprom 24lc256
+ * @see 
+ */
+ 
+ Objetivo: 
+ 
+ El presente documento sirve de guía para la utilización del driver para manejo de la memoria eeprom 
+ modelo 24lc256, sobre un bus de comunicación i2c, desarrollado sobre la beaglebone black (bbb) y bajo el kernel de Linux.
+ 
+ Pre-requisitos:
+ 	-Contar con la imagen del kernel de linux según el modelo de la placa de desarrollo
+ 	-Contar con el device tree (*.dtb) compilado, con la habilitación de pines, dirección y velocidad del dispositivo
+ 		(i2c1,0x50,100K)
+ 	-Contar con el archivo de código del driver desarrollado (en este caso se utiliza la estructura de char-device) y compilado.
+ 	-Contar con el código de usuario para la aplicación final.	
+ 
+ Secuencia de implementación:
+ 
+ 	-Transferir a la placa, mediante protocolo de intercambio de archivos la imagen del kernel y el device tree
+ 	previa la configuración de red necesaria.
+ 	-Bootear la placa.
+ 	-Compilar el driver (makefile) desarrollado, se genera el archivo (módulo) con extensión (.ko), transferirlo mediante 
+ 	la comunicación de red
+ 	establecida.
+ 	-Con la placa con el sistema operativo activo, instalar el módulo mediante insmod, verificar la instalación correcta con lsmod
+ 	-Compilar el código de usuario (arm-linux-gnueabi-gcc -o test usercode.c) (usercode.c), 
+ 	transferir el ejecutable a la placa y ejecutarlo desde la misma.
+ 	
+ Aplicación de usuario:
+ 
+ 	-La aplicación permite mediante un menú, introducir una clave numérica de cuatro digitos, la misma que será guardada
+ 	en la memoria.
+ 	-Para poder generar una nueva clave se solicita al usuario confirmar la clave anterior.
+ 	-La aplicación permite también validar la clave del usuario, en caso de ser correcta se despliega un mensaje de bienvenida
+ 	caso contrario uno de acceso denegado.
+ 	-La aplicación no soporta y no esta implementada para validación de digitos, tamaño y numero de accesos incorrectos, 
+ 	la incurrencia en este tipo de faltas no se contemplo por no ser de mayor interes, por tanto la respuesta del sistema 
+ 	no se garantiza en esas condiciones.
+ 	
+ Conexiónes:
+ 
+ 	-Ethernet Pc-bbb cable directo (transferencia de archivos)
+ 	-UART PC-bbb conversor USB-TTL (Configuraciones y desarrollo)
+ 	-i2c  bbb-24lc256
